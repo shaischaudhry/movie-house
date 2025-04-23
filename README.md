@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Movie House - Next.js Application
+
+A modern web application for browsing movies, genres, and directors built with Next.js 15 and Tailwind CSS.
+
+## Features
+
+- Browse trending movies on the home page
+- View all movies with genre filtering
+- Explore movies by genre
+- View detailed information about movies, including director information
+- Responsive design that works on mobile and desktop
+
+## Project Structure
+
+- `/app` - Next.js application code
+  - `/app/page.js` - Home page with trending movies
+  - `/app/genres` - Genre listing and detail pages
+  - `/app/movies` - Movie listing and detail pages
+  - `/app/directors` - Director listing pages
+- `/data` - JSON data for movies, genres, and directors
 
 ## Getting Started
 
-First, run the development server:
+1. Install dependencies:
+   ```
+   npm install
+   ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2. Run the development server:
+   ```
+   npm run dev
+   ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Technologies Used
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Next.js 15
+- React 19
+- Tailwind CSS
+- SWR for data fetching
 
-## Learn More
+## Assignment Submission
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project was created for the Advanced Programming assignment. It demonstrates the use of modern web technologies and responsive design principles.
