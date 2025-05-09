@@ -1,17 +1,7 @@
 import data from '../../../data/data.json'
 import Link from 'next/link'
 
-export async function generateStaticParams() {
-  return data.movies.map((movie) => ({
-    id: movie.id,
-  }))
-}
-
-export default function MoviePage({ params }) {
-  const movie = data.movies.find(m => m.id === params.id)
-  const genre = data.genres.find(g => g.id === movie.genreId)
-  const director = data.directors.find(d => d.id === movie.directorId)
-
+export default function MoviePage({ movie, genre, director }) {
   if (!movie) {
     return <div>Movie not found</div>
   }
@@ -37,7 +27,7 @@ export default function MoviePage({ params }) {
               <p className="font-medium">{director.name}</p>
               <p className="text-gray-600 mt-2">{director.biography}</p>
               <Link 
-                href={`/movies/${movie.id}/director`}
+                href={`/directors/${director.id}`}
                 className="text-blue-600 hover:text-blue-800 mt-4 inline-block"
               >
                 View Director Profile →
@@ -62,4 +52,26 @@ export default function MoviePage({ params }) {
       </div>
     </div>
   )
+}
+
+export async function getServerSideProps({ params }) {
+  const movieId = params.id
+  const movie = data.movies.find(m => m.id === movieId)
+  
+  if (!movie) {
+    return {
+      notFound: true
+    }
+  }
+  
+  const genre = data.genres.find(g => g.id === movie.genreId)
+  const director = data.directors.find(d => d.id === movie.directorId)
+  
+  return {
+    props: {
+      movie,
+      genre,
+      director
+    }
+  }
 } 

@@ -13,6 +13,23 @@ body {
   min-height: 100vh;
 }
 
+/* Dark mode styles */
+body.dark-mode {
+  --foreground-rgb: 255, 255, 255;
+  --background-rgb: 30, 30, 30;
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+}
+
+.dark .card {
+  background-color: #2d3748;
+  color: white;
+}
+
+.dark a {
+  color: #63b3ed;
+}
+
 @layer components {
   .container {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;

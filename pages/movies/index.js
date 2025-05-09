@@ -1,14 +1,13 @@
-'use client'
 import { useState } from 'react'
 import data from '../../data/data.json'
 import Link from 'next/link'
 
-export default function Movies() {
+export default function Movies({ movies, genres }) {
   const [selectedGenre, setSelectedGenre] = useState('')
 
   const filteredMovies = selectedGenre
-    ? data.movies.filter(movie => movie.genreId === selectedGenre)
-    : data.movies
+    ? movies.filter(movie => movie.genreId === selectedGenre)
+    : movies
 
   return (
     <div className="space-y-6">
@@ -21,7 +20,7 @@ export default function Movies() {
           className="border rounded-md px-3 py-2"
         >
           <option value="">All Genres</option>
-          {data.genres.map(genre => (
+          {genres.map(genre => (
             <option key={genre.id} value={genre.id}>
               {genre.name}
             </option>
@@ -49,4 +48,13 @@ export default function Movies() {
       </div>
     </div>
   )
+}
+
+export async function getServerSideProps() {
+  return {
+    props: {
+      movies: data.movies,
+      genres: data.genres
+    }
+  }
 } 

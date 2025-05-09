@@ -1,23 +1,13 @@
-'use client'
-import useSWR from 'swr'
-import data from '../../data/data.json'
 import Link from 'next/link'
 
-const fetcher = () => Promise.resolve(data.directors)
-
-export default function DirectorsPage() {
-  const { data: directors, error } = useSWR('directors', fetcher)
-
-  if (error) return <div>Failed to load directors</div>
-  if (!directors) return <div>Loading...</div>
-
+export default function DirectorsPage({ directors, directorMoviesMap }) {
   return (
     <div className="space-y-8">
       <h1 className="text-3xl font-bold text-gray-900">Movie Directors</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {directors.map(director => {
-          const directorMovies = data.movies.filter(movie => movie.directorId === director.id)
+          const directorMovies = directorMoviesMap[director.id] || []
           
           return (
             <div key={director.id} className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -43,4 +33,25 @@ export default function DirectorsPage() {
       </div>
     </div>
   )
+}
+
+export async function getServerSideProps() {
+  const data = require('../../data/data.json')
+  
+  // Create a map of director IDs to their movies
+  const directorMoviesMap = {}
+  
+  data.movies.forEach(movie => {
+    if (!directorMoviesMap[movie.directorId]) {
+      directorMoviesMap[movie.directorId] = []
+    }
+    directorMoviesMap[movie.directorId].push(movie)
+  })
+  
+  return {
+    props: {
+      directors: data.directors,
+      directorMoviesMap
+    }
+  }
 } 

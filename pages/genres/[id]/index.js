@@ -1,10 +1,6 @@
-import data from '../../../data/data.json'
 import Link from 'next/link'
 
-export default function GenrePage({ params }) {
-  const genre = data.genres.find(g => g.id === params.id)
-  const genreMovies = data.movies.filter(movie => movie.genreId === params.id)
-
+export default function GenrePage({ genre, genreMovies }) {
   if (!genre) {
     return <div>Genre not found</div>
   }
@@ -41,4 +37,26 @@ export default function GenrePage({ params }) {
       </div>
     </div>
   )
+}
+
+export async function getServerSideProps({ params }) {
+  const data = require('../../../data/data.json')
+  
+  const genreId = params.id
+  const genre = data.genres.find(g => g.id === genreId)
+  
+  if (!genre) {
+    return {
+      notFound: true
+    }
+  }
+  
+  const genreMovies = data.movies.filter(movie => movie.genreId === genreId)
+  
+  return {
+    props: {
+      genre,
+      genreMovies
+    }
+  }
 } 
