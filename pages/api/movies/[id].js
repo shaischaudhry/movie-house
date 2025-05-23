@@ -1,9 +1,6 @@
-import dbConnect from '../../../lib/mongodb';
-import Movie from '../../../models/Movie';
+import { getMovieById } from '../../../models/Movie';
 
 export default async function handler(req, res) {
-  await dbConnect();
-
   // Only allow GET requests
   if (req.method !== 'GET') {
     return res.status(405).json({ message: 'Method not allowed' });
@@ -12,7 +9,7 @@ export default async function handler(req, res) {
   const { id } = req.query;
 
   try {
-    const movie = await Movie.findOne({ id: id });
+    const movie = await getMovieById(id);
     
     if (!movie) {
       return res.status(404).json({ message: 'Movie not found' });

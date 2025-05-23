@@ -1,10 +1,7 @@
-import dbConnect from '../../../../lib/mongodb';
-import Movie from '../../../../models/Movie';
-import Genre from '../../../../models/Genre';
+import { getMoviesByGenre } from '../../../../models/Movie';
+import { getGenreById } from '../../../../models/Genre';
 
 export default async function handler(req, res) {
-  await dbConnect();
-
   // Only allow GET requests
   if (req.method !== 'GET') {
     return res.status(405).json({ message: 'Method not allowed' });
@@ -14,14 +11,14 @@ export default async function handler(req, res) {
 
   try {
     // First check if the genre exists
-    const genre = await Genre.findOne({ id: id });
+    const genre = await getGenreById(id);
     
     if (!genre) {
       return res.status(404).json({ message: 'Genre not found' });
     }
     
     // Find all movies that match the genreId
-    const movies = await Movie.find({ genreId: id });
+    const movies = await getMoviesByGenre(id);
     
     res.status(200).json(movies);
   } catch (error) {

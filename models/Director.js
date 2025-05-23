@@ -1,18 +1,15 @@
-import mongoose from 'mongoose';
+import clientPromise from '../lib/mongodb';
 
-const DirectorSchema = new mongoose.Schema({
-  id: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  name: {
-    type: String,
-    required: true
-  },
-  biography: {
-    type: String
-  }
-});
+export async function getDirectors() {
+  const client = await clientPromise;
+  const db = client.db('moviehouse');
+  return await db.collection('directors').find({}).toArray();
+}
 
-export default mongoose.models.Director || mongoose.model('Director', DirectorSchema); 
+export async function getDirectorById(id) {
+  const client = await clientPromise;
+  const db = client.db('moviehouse');
+  return await db.collection('directors').findOne({ id });
+}
+
+export default { getDirectors, getDirectorById }; 

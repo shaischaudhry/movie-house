@@ -1,37 +1,27 @@
-import mongoose from 'mongoose';
+import clientPromise from '../lib/mongodb';
 
-const MovieSchema = new mongoose.Schema({
-  id: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  title: {
-    type: String,
-    required: true
-  },
-  description: {
-    type: String,
-    required: true
-  },
-  releaseYear: {
-    type: Number,
-    required: true
-  },
-  rating: {
-    type: Number,
-    required: true,
-    min: 0,
-    max: 10
-  },
-  genreId: {
-    type: String,
-    required: true
-  },
-  directorId: {
-    type: String,
-    required: true
-  }
-});
+export async function getMovies() {
+  const client = await clientPromise;
+  const db = client.db('moviehouse');
+  return await db.collection('movies').find({}).toArray();
+}
 
-export default mongoose.models.Movie || mongoose.model('Movie', MovieSchema); 
+export async function getMovieById(id) {
+  const client = await clientPromise;
+  const db = client.db('moviehouse');
+  return await db.collection('movies').findOne({ id });
+}
+
+export async function getMoviesByGenre(genreId) {
+  const client = await clientPromise;
+  const db = client.db('moviehouse');
+  return await db.collection('movies').find({ genreId }).toArray();
+}
+
+export async function getMoviesByDirector(directorId) {
+  const client = await clientPromise;
+  const db = client.db('moviehouse');
+  return await db.collection('movies').find({ directorId }).toArray();
+}
+
+export default { getMovies, getMovieById, getMoviesByGenre, getMoviesByDirector }; 

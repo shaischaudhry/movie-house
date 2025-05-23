@@ -1,18 +1,15 @@
-import mongoose from 'mongoose';
+import clientPromise from '../lib/mongodb';
 
-const GenreSchema = new mongoose.Schema({
-  id: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  name: {
-    type: String,
-    required: true
-  },
-  description: {
-    type: String
-  }
-});
+export async function getGenres() {
+  const client = await clientPromise;
+  const db = client.db('moviehouse');
+  return await db.collection('genres').find({}).toArray();
+}
 
-export default mongoose.models.Genre || mongoose.model('Genre', GenreSchema); 
+export async function getGenreById(id) {
+  const client = await clientPromise;
+  const db = client.db('moviehouse');
+  return await db.collection('genres').findOne({ id });
+}
+
+export default { getGenres, getGenreById }; 
